@@ -178,7 +178,7 @@ const ChatSidebar = ({ selectedConversation, onConversationSelect, conversations
             </div>
           )}
         </div>
-      </div>
+      </header>
 
       {/* Search */}
       <div className="p-3 bg-[#111b21]">
@@ -350,7 +350,7 @@ const ChatSidebar = ({ selectedConversation, onConversationSelect, conversations
           toast.success('Chat moved back to main list');
         }}
       />
-    </div>
+    </aside>
   );
 };
 

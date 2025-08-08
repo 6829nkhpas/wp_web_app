@@ -227,46 +227,40 @@ const Chat = () => {
   }, [socketConnected]);
 
   return (
-    <div className="h-screen bg-whatsapp-bg flex flex-col">
-      {/* Connection Status Bar */}
-      {(!isOnline || !socketConnected) && (
-        <div className="bg-yellow-600 text-white px-4 py-2 text-sm flex items-center justify-center space-x-2">
-          {!isOnline ? (
-            <>
-              <WifiOff className="w-4 h-4" />
-              <span>You are offline. Some features may not work.</span>
-            </>
-          ) : !socketConnected ? (
-            <>
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-              <span>Connecting to server...</span>
-            </>
-          ) : null}
-        </div>
-      )}
+    <>
+      <div className="h-screen bg-whatsapp-bg flex flex-col">
+        {/* Connection Status Bar */}
+        {(!isOnline || !socketConnected) && (
+          <div className="bg-yellow-600 text-white px-4 py-2 text-sm flex items-center justify-center space-x-2">
+            {!isOnline ? (
+              <>
+                <WifiOff className="w-4 h-4" />
+                <span>You are offline. Some features may not work.</span>
+              </>
+            ) : !socketConnected ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <span>Connecting to server...</span>
+              </>
+            ) : null}
+          </div>
+        )}
 
-      {/* Main Chat Interface */}
-      <div className="flex-1 flex overflow-hidden">
-        {/* Sidebar */}
-        <div className={`${isMobile ? 'w-full' : 'w-80'} ${isMobile && selectedConversation ? 'hidden' : 'flex'} flex-col border-r border-gray-700`}>
-          <ChatSidebar
-            conversations={conversations}
-            selectedConversation={selectedConversation}
-            onConversationSelect={handleConversationSelect}
-            onNewConversation={handleNewConversation}
-            loading={loading}
-          />
-        </div>
-
-        {/* Chat Window */}
-        <div className={`flex-1 ${isMobile && !selectedConversation ? 'hidden' : 'flex'} flex-col`}>
-          <ChatWindow
-            conversation={selectedConversation}
-            onBack={handleBackFromChat}
-          />
+        <div className="flex-1 h-full bg-whatsapp-bg-chat flex flex-col">
+          {selectedConversation ? (
+            <ChatWindow
+              conversation={selectedConversation}
+              onBack={() => setSelectedConversation(null)}
+            />
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full bg-whatsapp-bg-chat">
+              <h2 className="text-3xl font-bold text-whatsapp-text-primary mb-4">WhatsApp Web Clone</h2>
+              <p className="text-whatsapp-text-secondary">Select a chat to start messaging</p>
+            </div>
+          )}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

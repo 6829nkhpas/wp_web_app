@@ -118,76 +118,74 @@ const SendBox = ({
   };
 
   return (
-    <div className="bg-whatsapp-panel-header border-t border-whatsapp-border-default p-2 sm:p-4">
-      <div className="flex items-end space-x-1 sm:space-x-2">
-        {/* Emoji Button */}
-        <div className="relative">
-          <button
-            type="button"
-            onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-            className="p-2 text-whatsapp-text-secondary hover:text-whatsapp-text-primary transition-colors rounded-lg hover:bg-whatsapp-bg-tertiary/50"
-            disabled={disabled}
-          >
-            <Smile className="w-5 h-5 sm:w-6 sm:h-6" />
-          </button>
-
-          {/* Emoji Picker */}
-          {showEmojiPicker && (
-            <div ref={emojiPickerRef} className="absolute bottom-full left-0 mb-2 z-50">
-              <EmojiPicker
-                onEmojiClick={handleEmojiClick}
-                theme="dark"
-                width={280}
-                height={350}
-                className="sm:!w-[300px] sm:!h-[400px]"
-              />
-            </div>
-          )}
+    <form className="bg-whatsapp-panel-header border-t border-whatsapp-border-default p-2 sm:p-4 flex items-end space-x-1 sm:space-x-2 relative" onSubmit={handleSubmit}>
+      {/* Emoji Picker */}
+      {showEmojiPicker && (
+        <div ref={emojiPickerRef} className="absolute bottom-14 left-0 z-50">
+          <EmojiPicker onEmojiClick={handleEmojiClick} theme="dark" />
         </div>
+      )}
 
-        {/* Message Input */}
-        <form onSubmit={handleSubmit} className="flex-1 flex items-end space-x-1 sm:space-x-2">
-          <div className="flex-1 relative">
-            <textarea
-              ref={textareaRef}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder={placeholder}
-              disabled={disabled}
-              className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-whatsapp-panel-input text-whatsapp-text-primary rounded-lg border border-whatsapp-border-default focus:outline-none focus:ring-2 focus:ring-whatsapp-green focus:border-transparent placeholder-whatsapp-text-secondary resize-none max-h-[80px] sm:max-h-[100px] custom-scrollbar text-sm sm:text-base"
-              rows={1}
-            />
+      {/* Attachment Button */}
+      <button
+        type="button"
+        className="p-2 rounded-full hover:bg-whatsapp-bg-tertiary transition-colors"
+        onClick={triggerFileUpload}
+        tabIndex={-1}
+        aria-label="Attach file"
+      >
+        <Paperclip className="w-5 h-5 text-whatsapp-text-secondary" />
+      </button>
+      <input
+        ref={fileInputRef}
+        type="file"
+        className="hidden"
+        tabIndex={-1}
+        multiple
+        onChange={handleFileUpload}
+      />
 
-            {/* Character counter (optional) */}
-            {message.length > 4000 && (
-              <div className="absolute -top-5 sm:-top-6 right-0 text-xs text-whatsapp-text-secondary">
-                {message.length}/4096
-              </div>
-            )}
-          </div>
+      {/* Textarea */}
+      <textarea
+        ref={textareaRef}
+        className="chat-input custom-scrollbar bg-transparent text-whatsapp-text-primary placeholder-whatsapp-text-secondary resize-none focus:ring-2 focus:ring-whatsapp-green max-h-[100px] text-base flex-1"
+        placeholder={placeholder}
+        value={message}
+        onChange={e => setMessage(e.target.value)}
+        onKeyDown={handleKeyPress}
+        rows={1}
+        disabled={disabled}
+        aria-label="Type a message"
+      />
 
-          {/* Send Button */}
-          <button
-            type="submit"
-            disabled={!message.trim() || disabled}
-            className={`p-2 sm:p-3 rounded-full transition-all duration-200 flex-shrink-0 ${message.trim() && !disabled
-              ? 'bg-whatsapp-green hover:bg-whatsapp-green-dark text-white'
-              : 'bg-whatsapp-bg-secondary text-whatsapp-text-secondary cursor-not-allowed'
-              }`}
-          >
-            <Send className="w-4 h-4 sm:w-5 sm:h-5" />
-          </button>
-        </form>
-      </div>
+      {/* Emoji Button */}
+      <button
+        type="button"
+        className="p-2 rounded-full hover:bg-whatsapp-bg-tertiary transition-colors"
+        onClick={() => setShowEmojiPicker(val => !val)}
+        tabIndex={-1}
+        aria-label="Emoji picker"
+      >
+        <Smile className="w-5 h-5 text-whatsapp-text-secondary" />
+      </button>
+
+      {/* Send Button */}
+      <button
+        type="submit"
+        className="p-2 rounded-full bg-whatsapp-green hover:bg-whatsapp-green-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+        disabled={disabled || !message.trim()}
+        aria-label="Send message"
+      >
+        <Send className="w-5 h-5 text-white" />
+      </button>
 
       {/* Typing indicator */}
       {isTyping && (
-        <div className="mt-1 sm:mt-2 text-xs text-gray-400 ml-12 sm:ml-14">
+        <div className="absolute left-14 bottom-14 mt-1 sm:mt-2 text-xs text-gray-400 ml-12 sm:ml-14">
           Typing...
         </div>
       )}
-    </div>
+    </form>
   );
 };
 

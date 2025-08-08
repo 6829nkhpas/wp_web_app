@@ -633,7 +633,7 @@ const ChatWindow = ({ conversation, onBack }) => {
         onStartCall={handleCall}
         onStartVideoCall={() => { }} // Disabled as per requirement
       />
-    </div>
+    </main>
   );
 };
 
