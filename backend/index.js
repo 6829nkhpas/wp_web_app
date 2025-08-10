@@ -70,6 +70,23 @@ app.post('/webhook/whatsapp', (req, res) => {
   }
 });
 
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'WhatsApp Web Clone API Server',
+    version: '1.0.0',
+    endpoints: {
+      health: '/health',
+      api: '/api',
+      users: '/api/users',
+      messages: '/api/messages',
+      payloads: '/api/payloads'
+    },
+    documentation: 'Check /health for server status'
+  });
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
